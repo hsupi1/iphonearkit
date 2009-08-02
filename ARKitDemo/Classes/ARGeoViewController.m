@@ -14,6 +14,13 @@
 
 @synthesize centerLocation;
 
+- (void)startListening {
+  [super startListening];
+  self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+  self.locationManager.distanceFilter = 0;
+  [self.locationManager startUpdatingLocation];  
+}
+
 - (void)setCenterLocation:(CLLocation *)newLocation {
 	[centerLocation release];
 	centerLocation = [newLocation retain];
@@ -25,6 +32,12 @@
 			NSLog(@"geo: %@", geoLocation);
 		}
 	}
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation {
+  [self setCenterLocation:newLocation];
 }
 
 @end
